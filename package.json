@@ -1,0 +1,5 @@
+{
+  "name": "be-aliant-challenge",
+  "private": true,
+  "workspaces": ["api", "worker", "common"]
+}
