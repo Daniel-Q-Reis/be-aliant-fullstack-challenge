@@ -54,10 +54,18 @@ be-aliant-challenge/
 │               ├── orders.service.ts               # Outbox Pattern documentado
 │               └── orders.service.spec.ts          # 4 testes
 │
-├── worker/                 # (a ser criado na Fase 3 – feature/worker-consumer)
+├── worker/                 # NestJS Standalone – SQS Consumer (Fase 3)
+│   ├── package.json        # Deps mínimas + AWS SDK v3 latest
+│   ├── tsconfig.json / tsconfig.build.json / nest-cli.json
+│   ├── Dockerfile          # Multi-stage, sem EXPOSE (background process)
 │   └── src/
-│       ├── main.ts         # createApplicationContext()
-│       └── order-processor/
+│       ├── main.ts         # createApplicationContext() – sem HTTP server
+│       ├── app.module.ts   # ConfigModule (Joi) + TypeORM (synchronize:false) + ConsumerModule
+│       └── consumer/
+│           ├── consumer.module.ts
+│           ├── consumer.service.ts    # Long polling (WaitTimeSeconds:20), UPDATE condicional,
+│           │                          # fail-safe loop infinito (setImmediate), sleep() auxiliar
+│           └── consumer.service.spec.ts  # 3 testes: affected:1→delete, affected:0→delete, exception→NÃO delete
 │
 ├── web/                    # (a ser criado na Fase 4 – feature/vue-frontend)
 │
