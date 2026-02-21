@@ -1,0 +1,14 @@
+{
+    "name": "@be-aliant/common",
+    "version": "1.0.0",
+    "description": "Entidades e DTOs compartilhados entre api e worker",
+    "main": "src/index.ts",
+    "scripts": {},
+    "peerDependencies": {
+        "typeorm": "*",
+        "class-validator": "*",
+        "class-transformer": "*",
+        "@nestjs/common": "*",
+        "@nestjs/mapped-types": "*"
+    }
+}

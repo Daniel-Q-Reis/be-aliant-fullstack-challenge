@@ -1,74 +1,50 @@
 # Status do Projeto – be-aliant-challenge
 
-## Branch Atual: `feature/infra-setup`
-## Próxima Branch: `feature/api-auth-users`
+## Branch Atual: `feature/api-auth-users`
+## Próxima Branch: `feature/api-orders-messaging`
 
 ---
 
 ## Histórico de Fases
 
-### ✅ Fase 0 – Infraestrutura (`feature/infra-setup`)
+### ✅ Fase 0 – Infraestrutura (`feature/infra-setup`) – concluída
 
-**Arquivos criados:**
-- `docker-compose.yml` – Orquestra MySQL 8, Adminer, LocalStack SQS e sqs-init
-- `.env.example` – Template de variáveis de ambiente (DB, JWT, AWS/SQS)
-- `struct.md` – Árvore de diretórios com descrição de cada arquivo/pasta
-- `status.md` – Este arquivo
-
-**Serviços disponíveis após `docker-compose up --build`:**
-
-| Serviço    | URL                       |
-|------------|---------------------------|
-| API REST   | http://localhost:3000     |
-| Frontend   | http://localhost:5173     |
-| Adminer    | http://localhost:8080     |
-| LocalStack | http://localhost:4566     |
+**Arquivos criados:** `docker-compose.yml`, `.env.example`, `struct.md`, `status.md`
 
 ---
 
-### ⏳ Fase 1 – Backend Base + Auth + Segurança (`feature/api-auth-users`) – pendente
+### ✅ Fase 1 – Backend Base + Auth (`feature/api-auth-users`) – concluída
 
-Previsto:
-- NestJS init + TypeORM + ConfigModule (validação Joi) + ValidationPipe global
-- GlobalExceptionFilter + LoggingInterceptor + Pino
-- Módulo Users: `POST /users`, `PUT /users/:id`
-- Módulo Auth: `POST /login` (JWT)
-- Testes unitários: `users.service.spec.ts`, `auth.service.spec.ts`
+**Entregues:**
+- `package.json` raiz (npm workspaces: api, worker, common)
+- `common/` – entidades TypeORM e DTOs compartilhados
+- `api/` – NestJS completo:
+  - ConfigModule com validação Joi (app não sobe com envs faltando)
+  - TypeOrmModule async via ConfigService (`synchronize: true` com aviso)
+  - GlobalExceptionFilter, LoggingInterceptor, `@CurrentUser` decorator
+  - **UsersModule**: `POST /users` (bcrypt hash) + `PUT /users/:id`
+  - **AuthModule**: `POST /login` (JWT HS256) + `JwtAuthGuard` exportado
+  - **Testes unitários**: 7 casos (4 UsersService + 3 AuthService)
+  - Dockerfile multi-stage (builder + production)
 
 ---
 
 ### ⏳ Fase 2 – Pedidos + Mensageria (`feature/api-orders-messaging`) – pendente
 
 Previsto:
-- MessagingModule isolado (SqsProducerService injetável)
+- Order entity em `common/src/entities/`
+- MessagingModule isolado (SqsProducerService)
 - Módulo Orders: `POST /orders`, `GET /orders?status=`, `GET /orders/:id`
-- Testes unitários: `orders.service.spec.ts`, `sqs-producer.service.spec.ts`
+- Testes: `orders.service.spec.ts`, `sqs-producer.service.spec.ts`
 
 ---
 
 ### ⏳ Fase 3 – Worker SQS Consumer (`feature/worker-consumer`) – pendente
 
-Previsto:
-- NestJS Standalone (`createApplicationContext`) sem HTTP server
-- Poll loop fail-safe + idempotência via UPDATE condicional
-- Log estruturado (Pino) em todos os eventos
-
 ---
 
 ### ⏳ Fase 4 – Frontend Vue 3 (`feature/vue-frontend`) – pendente
 
-Previsto:
-- Vue 3 + Vite + Pinia (`authStore`, `ordersStore`)
-- Vue Router com guard `beforeEach`
-- Views: Login, OrdersList, CreateOrder, OrderDetail
-- Axios interceptors + TailwindCSS
-
 ---
 
 ### ⏳ Fase 5 – Polish & Entrega Final (`feature/polish-and-tests`) – pendente
-
-Previsto:
-- README.md completo (como rodar + decisões + diagrama Mermaid + produção)
-- `npm run test:cov` em `api/` e `worker/`
-- TypeORM migrations geradas
-- Merge final para `main`
