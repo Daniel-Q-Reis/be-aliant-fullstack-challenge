@@ -1,20 +1,18 @@
 # Status do Projeto – be-aliant-challenge
 
-## Branch Atual: `feature/api-auth-users`
-## Próxima Branch: `feature/api-orders-messaging`
+## Branch Atual: `feature/api-orders-messaging`
+## Próxima Branch: `feature/worker-consumer`
 
 ---
 
 ## Histórico de Fases
 
 ### ✅ Fase 0 – Infraestrutura (`feature/infra-setup`) – concluída
-
 **Arquivos criados:** `docker-compose.yml`, `.env.example`, `struct.md`, `status.md`
 
 ---
 
 ### ✅ Fase 1 – Backend Base + Auth (`feature/api-auth-users`) – concluída
-
 **Entregues:**
 - `package.json` raiz (npm workspaces: api, worker, common)
 - `common/` – entidades TypeORM e DTOs compartilhados
@@ -29,17 +27,20 @@
 
 ---
 
-### ⏳ Fase 2 – Pedidos + Mensageria (`feature/api-orders-messaging`) – pendente
-
-Previsto:
-- Order entity em `common/src/entities/`
-- MessagingModule isolado (SqsProducerService)
-- Módulo Orders: `POST /orders`, `GET /orders?status=`, `GET /orders/:id`
-- Testes: `orders.service.spec.ts`, `sqs-producer.service.spec.ts`
+### ✅ Fase 2 – Pedidos + Mensageria (`feature/api-orders-messaging`) – concluída
+**Entregues:**
+- `OrderEntity` (`decimal(10,2)`, `enum OrderStatus` exportado separadamente)
+- `OrdersModule`: `POST /orders`, `GET /orders?status=`, `GET /orders/:id` (todos protegidos por JWT, userId do token)
+- `MessagingModule` isolado (`@Global`, AWS SDK v3 `latest`)
+- `SqsProducerService`: endpoint configurável (LocalStack ↔ SQS real), try/catch com log
+- Outbox Pattern documentado em código (comentário obrigatório em OrdersService)
+- **Testes unitários:** 2 OrdersService + 2 SqsProducerService (mock do SDK)
+- AppModule atualizado: `OrderEntity` no TypeORM, Joi com vars AWS/SQS
 
 ---
 
 ### ⏳ Fase 3 – Worker SQS Consumer (`feature/worker-consumer`) – pendente
+Previsto: NestJS Standalone, long polling SQS, UPDATE condicional (idempotência), fail-safe loop
 
 ---
 

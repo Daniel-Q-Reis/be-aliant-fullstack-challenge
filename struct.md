@@ -6,57 +6,53 @@
 be-aliant-challenge/
 │
 ├── package.json            # Raiz do monorepo – npm workspaces (api, worker, common)
-│
-├── docker-compose.yml      # Serviços: MySQL 8, Adminer, LocalStack (SQS), sqs-init, api, worker, web
-├── .env.example            # Template de variáveis de ambiente (copiar para .env)
-│
-├── IMPLEMENTATION_PLAN_BEALIANT.md  # Plano arquitetural completo
-├── README.md               # Como rodar, decisões técnicas (a expandir na Fase 5)
+├── docker-compose.yml      # MySQL 8, Adminer, LocalStack SQS, sqs-init, api, worker, web
+├── .env.example            # Template de variáveis de ambiente
+├── IMPLEMENTATION_PLAN_BEALIANT.md
+├── README.md
 ├── struct.md               # Este arquivo
-├── status.md               # Histórico de fases e próximos passos
+├── status.md               # Histórico de fases
 │
-├── common/                 # Pacote compartilhado @be-aliant/common
+├── common/                 # Pacote @be-aliant/common
 │   ├── package.json
 │   └── src/
 │       ├── entities/
-│       │   └── user.entity.ts     # Entidade User (TypeORM + @Exclude no password)
+│       │   ├── user.entity.ts         # @Exclude no password, UUID
+│       │   └── order.entity.ts        # OrderStatus enum, decimal(10,2), enum status
 │       ├── dtos/
-│       │   ├── create-user.dto.ts # Validação class-validator
-│       │   ├── update-user.dto.ts # PartialType(CreateUserDto)
-│       │   └── login.dto.ts
-│       └── index.ts               # Barrel de exports
+│       │   ├── create-user.dto.ts
+│       │   ├── update-user.dto.ts     # PartialType
+│       │   ├── login.dto.ts
+│       │   ├── create-order.dto.ts    # userId NÃO está aqui (vem do JWT)
+│       │   └── order-filter.dto.ts    # status opcional (IsEnum OrderStatus)
+│       └── index.ts                   # Barrel de exports
 │
-├── api/                    # NestJS Monolito Modular – REST API
-│   ├── package.json        # Deps + Jest config + moduleNameMapper para @be-aliant/common
-│   ├── tsconfig.json       # paths alias @be-aliant/common → ../common/src
-│   ├── tsconfig.build.json
-│   ├── nest-cli.json
-│   ├── .eslintrc.js
-│   ├── .prettierrc
-│   ├── Dockerfile          # Multi-stage (builder + production). Contexto: raiz do monorepo
+├── api/                    # NestJS Monolito Modular
+│   ├── package.json        # + @aws-sdk/client-sqs: latest
+│   ├── tsconfig.json / tsconfig.build.json / nest-cli.json / .eslintrc.js / .prettierrc
+│   ├── Dockerfile          # Multi-stage, contexto: raiz do monorepo
 │   └── src/
-│       ├── main.ts         # Bootstrap: CORS, ValidationPipe, GlobalFilter, ClassSerializer
-│       ├── app.module.ts   # ConfigModule (Joi) + TypeOrmModule async
+│       ├── main.ts         # CORS, ValidationPipe, GlobalFilter, ClassSerializer
+│       ├── app.module.ts   # ConfigModule (Joi completo), TypeORM (User+Order), todos os módulos
 │       ├── common/
-│       │   ├── filters/
-│       │   │   └── http-exception.filter.ts   # GlobalExceptionFilter
-│       │   ├── interceptors/
-│       │   │   └── logging.interceptor.ts     # LoggingInterceptor (método+path+status+ms)
-│       │   └── decorators/
-│       │       └── current-user.decorator.ts  # @CurrentUser()
+│       │   ├── filters/http-exception.filter.ts
+│       │   ├── interceptors/logging.interceptor.ts
+│       │   └── decorators/current-user.decorator.ts
 │       └── modules/
 │           ├── users/
-│           │   ├── users.module.ts
-│           │   ├── users.controller.ts        # POST /users · PUT /users/:id
-│           │   ├── users.service.ts           # bcrypt hash · ConflictException
-│           │   └── users.service.spec.ts      # 4 casos de teste
-│           └── auth/
-│               ├── auth.module.ts             # JWT async config
-│               ├── auth.controller.ts         # POST /login
-│               ├── auth.service.ts            # bcrypt compare · JWT sign
-│               ├── auth.service.spec.ts       # 3 casos de teste
-│               ├── jwt.strategy.ts            # PassportStrategy Bearer
-│               └── jwt-auth.guard.ts          # JwtAuthGuard exportado
+│           │   ├── users.module.ts / controller / service / service.spec.ts (4 testes)
+│           ├── auth/
+│           │   ├── auth.module.ts / controller / service / service.spec.ts (3 testes)
+│           │   ├── jwt.strategy.ts / jwt-auth.guard.ts
+│           ├── messaging/                          ← Módulo isolado SQS (exigência do teste)
+│           │   ├── messaging.module.ts             # @Global()
+│           │   ├── sqs-producer.service.ts         # AWS SDK v3, endpoint configurável
+│           │   └── sqs-producer.service.spec.ts    # mock do SDK (2 testes)
+│           └── orders/
+│               ├── orders.module.ts
+│               ├── orders.controller.ts            # POST /orders, GET /orders, GET /orders/:id
+│               ├── orders.service.ts               # Outbox Pattern documentado
+│               └── orders.service.spec.ts          # 4 testes
 │
 ├── worker/                 # (a ser criado na Fase 3 – feature/worker-consumer)
 │   └── src/
@@ -64,17 +60,16 @@ be-aliant-challenge/
 │       └── order-processor/
 │
 ├── web/                    # (a ser criado na Fase 4 – feature/vue-frontend)
-│   └── src/
 │
 └── docs/
-    └── architecture.png    # Diagrama exportado (a gerar na Fase 5)
+    └── architecture.png    # (a gerar na Fase 5)
 ```
 
 ## Serviços após `docker-compose up --build`
 
-| Serviço       | URL                          | Descrição                     |
-|---------------|------------------------------|-------------------------------|
-| API REST      | http://localhost:3000        | NestJS – endpoints REST       |
-| Frontend      | http://localhost:5173        | Vue 3 SPA                     |
-| Adminer       | http://localhost:8080        | Interface web para o MySQL    |
-| LocalStack    | http://localhost:4566        | Emulador local do AWS SQS     |
+| Serviço    | URL                       |
+|------------|---------------------------|
+| API REST   | http://localhost:3000     |
+| Frontend   | http://localhost:5173     |
+| Adminer    | http://localhost:8080     |
+| LocalStack | http://localhost:4566     |
