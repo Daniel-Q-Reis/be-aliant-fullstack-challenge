@@ -3,6 +3,7 @@ import {
     ReceiveMessageCommand,
     SQSClient,
 } from '@aws-sdk/client-sqs';
+import { ConfigService } from '@nestjs/config';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
 import { OrderEntity, OrderStatus } from '@be-aliant/common';
@@ -33,30 +34,30 @@ describe('ConsumerService – pollAndProcess', () => {
     beforeEach(async () => {
         jest.clearAllMocks();
 
-        const mockConfigService = {
-            get: jest.fn((key: string) => {
-                const config: Record<string, string | number> = {
-                    AWS_REGION: 'us-east-1',
-                    AWS_ENDPOINT: 'http://localhost:4566',
-                    AWS_ACCESS_KEY_ID: 'test',
-                    AWS_SECRET_ACCESS_KEY: 'test',
-                    SQS_QUEUE_URL: 'http://localhost:4566/000000000000/orders-queue',
-                    SQS_POLL_INTERVAL_MS: 100,
-                };
-                return config[key];
-            }),
-        };
+
 
         const module: TestingModule = await Test.createTestingModule({
             providers: [
                 ConsumerService,
                 { provide: getRepositoryToken(OrderEntity), useValue: mockOrderRepository },
-                { provide: 'ConfigService', useValue: mockConfigService },
+                {
+                    provide: ConfigService,
+                    useValue: {
+                        get: jest.fn((key: string) => {
+                            const config: Record<string, string> = {
+                                AWS_REGION: 'us-east-1',
+                                AWS_ENDPOINT: 'http://localhost:4566',
+                                AWS_ACCESS_KEY_ID: 'test',
+                                AWS_SECRET_ACCESS_KEY: 'test',
+                                SQS_QUEUE_URL: 'http://localhost:4566/000000000000/orders-queue',
+                                SQS_POLL_INTERVAL_MS: '5000',
+                            };
+                            return config[key];
+                        }),
+                    },
+                },
             ],
-        })
-            .overrideProvider('ConfigService')
-            .useValue(mockConfigService)
-            .compile();
+        }).compile();
 
         service = module.get<ConsumerService>(ConsumerService);
 
