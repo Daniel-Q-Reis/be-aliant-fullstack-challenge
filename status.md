@@ -1,7 +1,7 @@
 # Status do Projeto – be-aliant-challenge
 
-## Branch Atual: `feature/api-orders-messaging`
-## Próxima Branch: `feature/worker-consumer`
+## Branch Atual: `feature/vue-frontend`
+## Próxima Branch: `feature/polish-and-tests`
 
 ---
 
@@ -44,7 +44,22 @@ Previsto: NestJS Standalone, long polling SQS, UPDATE condicional (idempotência
 
 ---
 
-### ⏳ Fase 4 – Frontend Vue 3 (`feature/vue-frontend`) – pendente
+### ✅ Fase 4 – Frontend Vue 3 (`feature/vue-frontend`) – concluída
+**Entregues:**
+- Vite + Vue 3 + TypeScript + Tailwind CSS (tema dark, design premium)
+- `Dockerfile` multi-stage: builder (Vite) + production (nginx:alpine)
+- `nginx.conf`: `try_files` SPA fallback + cache de assets estáticos + `server_tokens off`
+- `services/api.ts`: Axios com interceptors de JWT inject e redirect em 401/403
+- `stores/auth.ts` (Pinia): token persistido no localStorage, getter `isAuthenticated`, actions `login`/`logout`
+- `stores/orders.ts` (Pinia): state `orders[]`, `currentOrder`, `loading`, `error` + 3 actions com try/catch
+- `router/index.ts`: 4 rotas + `beforeEach` guard usando `isAuthenticated`
+- **Views:**
+  - `LoginView.vue`: form, spinner, exibição de erro, redirect
+  - `DashboardView.vue`: tabela com filtros de status (pill buttons), badge PENDENTE/PROCESSADO
+  - `CreateOrderView.vue`: form desc+valor (step=0.01), spinner, redirect
+  - `OrderDetailView.vue`: badge colorido (amber=PENDENTE, emerald=PROCESSADO), grid de campos
+- `App.vue`: navbar condicional ao `isAuthenticated`, links + botão Logout
+- `docker-compose.yml` já continha o serviço `web` — nenhuma alteração necessária
 
 ---
 
