@@ -34,6 +34,13 @@ COPY --from=builder /app/api/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/api/package.json ./package.json
 
+# O npm workspace cria um symlink: node_modules/@be-aliant/common → /app/common
+# O tsc compilou common/src/*.ts → api/dist/common/src/*.js
+# Copiamos o JS compilado para que o symlink resolva corretamente em runtime
+COPY --from=builder /app/api/dist/common/src ./common/src
+COPY --from=builder /app/common/package.json ./common/package.json
+
 EXPOSE 3000
 
-CMD ["node", "dist/main"]
+# O tsc compila com ancestral comum em /app, então main.js fica em dist/api/src/
+CMD ["node", "dist/api/src/main"]

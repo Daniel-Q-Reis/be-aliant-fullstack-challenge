@@ -51,9 +51,7 @@ services:
       AWS_ACCESS_KEY_ID: test
       AWS_SECRET_ACCESS_KEY: test
     command: >
-      aws --endpoint-url=http://localstack:4566
-          --region us-east-1
-          sqs create-queue --queue-name orders-queue
+      --endpoint-url=http://localstack:4566 --region us-east-1 sqs create-queue --queue-name orders-queue
 
   api:
     build:

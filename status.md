@@ -39,8 +39,22 @@
 
 ---
 
-### ⏳ Fase 3 – Worker SQS Consumer (`feature/worker-consumer`) – pendente
-Previsto: NestJS Standalone, long polling SQS, UPDATE condicional (idempotência), fail-safe loop
+### ✅ Fase 3 – Worker SQS Consumer (`feature/worker-consumer`) – concluída
+**Entregues:**
+- NestJS Standalone: `createApplicationContext()` — sem HTTP server
+- `Dockerfile` multi-stage sem `EXPOSE` (processo background puro)
+- `ConsumerService`:
+  - Fail-safe loop infinito com `setImmediate` (não bloqueia o init do módulo)
+  - Long Polling: `WaitTimeSeconds: 20` (reduz calls vazias e custo SQS)
+  - `sleep()` auxiliar para intervalo configurável (`SQS_POLL_INTERVAL_MS`)
+  - UPDATE condicional: `{ id, status: PENDENTE }` → garante idempotência contra redelivery e réplicas
+  - `DeleteMessage` resiliente: chamado em `affected:1` e `affected:0`; **suprimido** se DB lançar exceção
+  - Comentário arquitetural obrigatório em PT-BR explicando a estratégia de idempotência
+- `AppModule`: `synchronize: false` com comentário explícito (schema gerenciado pela API)
+- **Testes unitários:** 3 casos cobrindo os 3 cenários de idempotência:
+  - `affected: 1` → DeleteMessage ✅ chamado
+  - `affected: 0` → DeleteMessage ✅ chamado (descarte idempotente)
+  - Exceção de DB → DeleteMessage ❌ não chamado (mensagem retorna pela VisibilityTimeout)
 
 ---
 
