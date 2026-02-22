@@ -67,8 +67,31 @@ be-aliant-challenge/
 │           │                          # fail-safe loop infinito (setImmediate), sleep() auxiliar
 │           └── consumer.service.spec.ts  # 3 testes: affected:1→delete, affected:0→delete, exception→NÃO delete
 │
-├── web/                    # (a ser criado na Fase 4 – feature/vue-frontend)
-│
+├── web/                    # Vue 3 SPA (Fase 4)
+│   ├── package.json        # Vite + Vue3 + Pinia + Axios + Tailwind
+│   ├── vite.config.ts      # Porta 5173, alias @/src
+│   ├── tailwind.config.js / postcss.config.js
+│   ├── tsconfig.json / tsconfig.app.json / tsconfig.node.json
+│   ├── index.html          # HTML raiz com div#app
+│   ├── .env.example        # VITE_API_URL=http://localhost:3000
+│   ├── Dockerfile          # Multi-stage: Vite build + Nginx:alpine
+│   ├── nginx.conf          # try_files SPA fallback + cache de assets
+│   └── src/
+│       ├── main.ts             # Bootstrap: Pinia + Router + mount
+│       ├── style.css           # @tailwind base/components/utilities
+│       ├── App.vue             # Navbar condicional (auth), RouterView
+│       ├── services/
+│       │   └── api.ts             # Axios + interceptors JWT inject + 401/403 redirect
+│       ├── stores/
+│       │   ├── auth.ts            # Pinia: token localStorage, isAuthenticated getter
+│       │   └── orders.ts          # Pinia: fetchOrders/fetchOrderById/createOrder
+│       ├── router/
+│       │   └── index.ts           # 4 rotas + beforeEach auth guard
+│       └── views/
+│           ├── LoginView.vue      # Form e-mail/senha, erro, spinner
+│           ├── DashboardView.vue  # Tabela de pedidos + filtros PENDENTE/PROCESSADO
+│           ├── CreateOrderView.vue # Form desc+valor, redirect ao sucesso
+│           └── OrderDetailView.vue # Badge status amarelo/verde, grid de campos
 └── docs/
     └── architecture.png    # (a gerar na Fase 5)
 ```

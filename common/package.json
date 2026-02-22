@@ -2,7 +2,7 @@
     "name": "@be-aliant/common",
     "version": "1.0.0",
     "description": "Entidades e DTOs compartilhados entre api e worker",
-    "main": "src/index.ts",
+    "main": "src/index.js",
     "scripts": {},
     "peerDependencies": {
         "typeorm": "*",
