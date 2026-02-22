@@ -11,6 +11,29 @@
 
 ---
 
+## ✅ Checklist do Desafio
+
+| Critério | Status | Observação |
+|---|---|---|
+| Endpoints obrigatórios (POST /users, PUT /users/:id, POST /login, POST /orders, GET /orders, GET /orders/:id) | ✅ | Escopo do desafio |
+| MySQL + TypeORM | ✅ | Escopo do desafio |
+| Docker Compose (API + Worker + DB + LocalStack) | ✅ | Escopo do desafio |
+| JWT (autenticação e proteção de rotas) | ✅ | Escopo do desafio |
+| Módulo isolado de mensageria (SQS) | ✅ | Escopo do desafio |
+| Microserviço separado (Worker standalone) | ✅ | Escopo do desafio |
+| Testes unitários (Services: Auth, Users, Orders, SQS, Consumer) | ✅ | Escopo do desafio |
+| Async/await correto | ✅ | Escopo do desafio |
+| Logs estruturados (NestJS Logger) | ✅ | Escopo do desafio |
+| Tratamento de erros (ExceptionFilter, HttpException) | ✅ | Escopo do desafio |
+| Padronização REST (status codes corretos) | ✅ | Escopo do desafio |
+| Uso correto de filas (long polling + idempotência) | ✅ | Escopo do desafio |
+| README completo (how-to, justificativas, diagrama, visão de produção) | ✅ | Escopo do desafio |
+| Diagrama de arquitetura (Mermaid) | ✅ | Escopo do desafio |
+| Scripts SQL (TypeORM sync/migrations) | ✅ | Escopo do desafio |
+| Swagger / OpenAPI (`/api/docs`) | ✅ | Extra — UX para o avaliador |
+
+---
+
 ## Como Rodar
 
 > **Pré-requisito:** Docker Desktop (ou Docker Engine + Compose) instalado e rodando.
