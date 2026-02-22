@@ -13,7 +13,11 @@
 
 ## Como Rodar
 
+> **Pré-requisito:** Docker Desktop (ou Docker Engine + Compose) instalado e rodando.
+
 ```bash
+git clone https://github.com/Daniel-Q-Reis/be-aliant-fullstack-challenge.git
+cd be-aliant-fullstack-challenge
 cp .env.example .env
 docker-compose up --build -d
 
