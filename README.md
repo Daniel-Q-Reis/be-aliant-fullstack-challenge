@@ -46,8 +46,11 @@ Após executar o seed:
 ## Testando com Postman
 
 1. Importe o arquivo `be-aliant.postman_collection.json` no Postman
-2. Execute **POST /login** — o token JWT é salvo automaticamente na variável `{{token}}`
-3. Execute os demais endpoints normalmente
+2. Execute **POST /users** para criar o usuário admin (pode pular se já rodou o seed)
+3. Execute **POST /login** — o token JWT é salvo automaticamente na variável `{{token}}`
+4. Execute os demais endpoints normalmente
+
+> Se o seed já foi executado antes de abrir o Postman, o **POST /users** retornará `409 Conflict` — comportamento correto, o usuário já existe. Basta prosseguir com o login.
 
 ---
 

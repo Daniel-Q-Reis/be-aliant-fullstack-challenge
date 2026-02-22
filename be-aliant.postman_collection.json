@@ -27,7 +27,8 @@
             "name": "Auth & Users",
             "item": [
                 {
-                    "name": "POST /users — Criar usuário",
+                    "name": "POST /users — Criar usuário admin",
+                    "description": "Cria o usuário admin. Pule esta etapa se já executou o seed script (o 409 Conflict é esperado nesse caso).",
                     "request": {
                         "method": "POST",
                         "header": [
@@ -47,7 +48,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n  \"name\": \"Daniel\",\n  \"email\": \"daniel@teste.com\",\n  \"password\": \"123456\"\n}"
+                            "raw": "{\n  \"name\": \"Admin\",\n  \"email\": \"admin@be-aliant.com\",\n  \"password\": \"123456\"\n}"
                         }
                     }
                 },
