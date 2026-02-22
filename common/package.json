@@ -9,6 +9,7 @@
         "class-validator": "*",
         "class-transformer": "*",
         "@nestjs/common": "*",
-        "@nestjs/mapped-types": "*"
+        "@nestjs/mapped-types": "*",
+        "@nestjs/swagger": "*"
     }
 }
