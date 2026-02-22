@@ -202,14 +202,17 @@
             "name": "Health",
             "item": [
                 {
-                    "name": "GET / — Health check",
+                    "name": "GET /health — Health check",
                     "request": {
                         "method": "GET",
                         "header": [],
                         "url": {
-                            "raw": "{{baseUrl}}",
+                            "raw": "{{baseUrl}}/health",
                             "host": [
                                 "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "health"
                             ]
                         }
                     }
