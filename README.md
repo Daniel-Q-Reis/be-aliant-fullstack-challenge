@@ -52,6 +52,12 @@ Após executar o seed:
 
 > Se o seed já foi executado antes de abrir o Postman, o **POST /users** retornará `409 Conflict` — comportamento correto, o usuário já existe. Basta prosseguir com o login.
 
+## Swagger / OpenAPI
+
+A documentação interativa da API está disponível em: [http://localhost:3000/api/docs](http://localhost:3000/api/docs)
+
+Após efetuar login pelo Postman (ou pelo próprio Swagger), clique em **Authorize** e cole o token JWT para testar os endpoints protegidos diretamente na interface.
+
 ---
 
 ## Diagrama de Arquitetura
@@ -115,7 +121,7 @@ Cognito ou Auth0 no lugar do JWT caseiro, AWS Secrets Manager para credenciais, 
 DLQ configurada no SQS (`maxReceiveCount: 3`), healthcheck endpoint com status de dependências (DB, SQS), retry com backoff exponencial no Worker.
 
 **Qualidade**
-Swagger/OpenAPI gerado pelo NestJS (`@nestjs/swagger`), SonarQube na pipeline CI, testes E2E com Cypress no frontend, migração para ESLint 9 flat config.
+Stryker para testes de mutação (métrica mais precisa que cobertura de linhas), SonarQube na pipeline CI, testes E2E com Cypress no frontend, migração para ESLint 9 flat config.
 
 ---
 

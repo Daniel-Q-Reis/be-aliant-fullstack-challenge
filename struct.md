@@ -36,8 +36,9 @@ be-aliant-challenge/
 │   ├── tsconfig.json / tsconfig.build.json / nest-cli.json / .eslintrc.js / .prettierrc
 │   ├── Dockerfile          # Multi-stage, contexto: raiz do monorepo
 │   └── src/
-│       ├── main.ts         # CORS, ValidationPipe, GlobalFilter, ClassSerializer
+│       ├── main.ts         # CORS, ValidationPipe, GlobalFilter, ClassSerializer, Swagger
 │       ├── app.module.ts   # ConfigModule (Joi completo), TypeORM (User+Order), todos os módulos
+│       ├── app.controller.ts  # GET /health – health check endpoint
 │       ├── common/
 │       │   ├── filters/http-exception.filter.ts
 │       │   ├── interceptors/logging.interceptor.ts

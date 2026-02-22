@@ -1,7 +1,7 @@
 # Status do Projeto – be-aliant-challenge
 
-## Branch Atual: `feature/polish-and-tests`
-## Próxima Branch: Nenhuma — ENTREGA FINAL
+## Branch Atual: `feature/extras`
+## Próxima Branch: Nenhuma — ENTREGA DEFINITIVA
 
 ---
 
@@ -90,3 +90,18 @@
 - **README.md** completo: badges CI/Node/NestJS/Vue/Docker/TS, diagrama Mermaid, tabela monorepo, justificativas arquiteturais, visão de produção
 
 **PROJETO FINALIZADO E PRONTO PARA ENTREGA.**
+
+---
+
+### 🚀 Fase 6 – Extras (`feature/extras`) – concluída
+**Entregues:**
+- **Swagger / OpenAPI** (`@nestjs/swagger ^7.4.0`):
+  - Configuração no `main.ts` — documentos disponível em `/api/docs`
+  - `@ApiProperty()` nos DTOs: `CreateUserDto`, `LoginDto`, `CreateOrderDto`
+  - `@ApiTags` + `@ApiOperation` em todos os controllers (Users, Auth, Orders, Health)
+  - `@ApiBearerAuth()` nas rotas protegidas por JWT
+- **Coverage CI** — pipeline atualizada para `npm run test:cov` nos jobs `test-api` e `test-worker`
+- **README** — seção Swagger adicionada; "Qualidade em produção" atualizada com Stryker (testes de mutação)
+- **struct.md** e **status.md** atualizados
+
+**ENTREGA DEFINITIVA REALIZADA COM SUCESSO ABSOLUTO.**
