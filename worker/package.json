@@ -4,7 +4,7 @@
     "description": "be-aliant Worker – NestJS Standalone SQS Consumer",
     "scripts": {
         "build": "nest build",
-        "start": "node dist/main",
+        "start": "node dist/worker/src/main",
         "start:dev": "ts-node src/main.ts",
         "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
         "test": "jest",

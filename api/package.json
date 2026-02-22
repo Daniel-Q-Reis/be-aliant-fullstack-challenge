@@ -4,7 +4,7 @@
     "description": "be-aliant API – NestJS Monolito Modular",
     "scripts": {
         "build": "nest build",
-        "start": "node dist/main",
+        "start": "node dist/api/src/main",
         "start:dev": "nest start --watch",
         "start:debug": "nest start --debug --watch",
         "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
