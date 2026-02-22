@@ -7,11 +7,15 @@ be-aliant-challenge/
 │
 ├── package.json            # Raiz do monorepo – npm workspaces (api, worker, common)
 ├── docker-compose.yml      # MySQL 8, Adminer, LocalStack SQS, sqs-init, api, worker, web
-├── .env.example            # Template de variáveis de ambiente
+├── .env.example            # Template de variáveis de ambiente (hostnames Docker corrigidos)
+├── README.md               # Documenção completa (badges, Mermaid, justificativas)
+├── be-aliant.postman_collection.json  # Coleção Postman v2.1 (auto-token no /login)
 ├── IMPLEMENTATION_PLAN_BEALIANT.md
-├── README.md
 ├── struct.md               # Este arquivo
 ├── status.md               # Histórico de fases
+├── .github/
+│   └── workflows/
+│       └── ci.yml              # CI: 3 jobs paralelos (test-api, test-worker, build-web)
 │
 ├── common/                 # Pacote @be-aliant/common
 │   ├── package.json
@@ -53,6 +57,8 @@ be-aliant-challenge/
 │               ├── orders.controller.ts            # POST /orders, GET /orders, GET /orders/:id
 │               ├── orders.service.ts               # Outbox Pattern documentado
 │               └── orders.service.spec.ts          # 4 testes
+│       └── database/
+│           └── seed.ts                             # Seed standalone (DataSource direto, bcrypt, 3 pedidos demo)
 │
 ├── worker/                 # NestJS Standalone – SQS Consumer (Fase 3)
 │   ├── package.json        # Deps mínimas + AWS SDK v3 latest

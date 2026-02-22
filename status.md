@@ -1,7 +1,7 @@
 # Status do Projeto – be-aliant-challenge
 
-## Branch Atual: `feature/vue-frontend`
-## Próxima Branch: `feature/polish-and-tests`
+## Branch Atual: `feature/polish-and-tests`
+## Próxima Branch: Nenhuma — ENTREGA FINAL
 
 ---
 
@@ -77,4 +77,16 @@
 
 ---
 
-### ⏳ Fase 5 – Polish & Entrega Final (`feature/polish-and-tests`) – pendente
+### ✅ Fase 5 – Polish & Entrega Final (`feature/polish-and-tests`) – concluída
+**Entregues:**
+- **CI/CD** (`.github/workflows/ci.yml`): 3 jobs paralelos — `test-api`, `test-worker`, `build-web`
+  - Corrigido para monorepo: `npm ci` na raiz + workspace commands (não há package-lock em api/ ou worker/)
+- **Seed script** (`api/src/database/seed.ts`):
+  - `DataSource` TypeORM standalone (sem NestJS bootstrap)
+  - Hash bcrypt (salt 10) na senha do usuário admin
+  - 3 pedidos de demonstração: 2 PENDENTE + 1 PROCESSADO
+  - Executado no container: `docker-compose exec api node dist/api/src/database/seed.js`
+- **Coleção Postman** (`be-aliant.postman_collection.json`): variáveis `baseUrl`/`token`/`orderId`, post-request script auto-salva token no `/login`
+- **README.md** completo: badges CI/Node/NestJS/Vue/Docker/TS, diagrama Mermaid, tabela monorepo, justificativas arquiteturais, visão de produção
+
+**PROJETO FINALIZADO E PRONTO PARA ENTREGA.**
