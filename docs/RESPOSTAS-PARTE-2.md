@@ -14,11 +14,13 @@ Neste desafio, escolhi monólito modular com NestJS para a API (Auth, Users, Ord
 
 ## 2. Escalabilidade horizontal no AWS ECS ou Lambda
 
+**Escalabilidade horizontal** no AWS significa adicionar mais instâncias (réplicas) em vez de aumentar recursos de uma única instância.
+
 **ECS (Fargate):** define-se um Service com `desiredCount > 1`. O Auto Scaling adiciona réplicas baseado em CPU/memória ou na profundidade da fila SQS (métrica `ApproximateNumberOfMessages` via CloudWatch). Cada task é stateless — o estado fica no banco ou no SQS.
 
 **Lambda:** escala automaticamente por invocação, sem gerenciamento de servidor. Suporta até milhares de execuções simultâneas. `Provisioned Concurrency` mitiga cold starts.
 
-Neste projeto, API e Worker seriam candidatos ao ECS Fargate — o Worker escalaria baseado no tamanho da fila SQS.
+Neste projeto, tanto a API quanto o Worker são stateless e prontos para escalar horizontalmente via ECS Fargate.
 
 ---
 
@@ -65,11 +67,11 @@ Neste projeto: `.env` local com LocalStack para desenvolvimento. Em produção, 
 
 ## 6. Diferença entre rate limit, throttling e debouncing
 
-| Conceito | O que faz | Onde vive |
+| Conceito | Definição | Local típico |
 |---|---|---|
 | **Rate Limit** | Bloqueia após N requests num período (ex: 100 req/min) | Backend / API Gateway |
 | **Throttling** | Rejeita ou enfileira requests que excedem a capacidade (HTTP 429) | Backend / infraestrutura |
-| **Debouncing** | Atrasa execução até o evento parar por X ms | Frontend / cliente |
+| **Debouncing** | Atrasa execução até o evento parar por X ms | Frontend / navegador |
 
 Rate limit **rejeita** por cota. Throttling **controla fluxo**. Debounce **espera silêncio**.
 
@@ -97,11 +99,11 @@ export class OrderEntity { ... }
 
 ## 8. Debounce e Throttle em eventos do navegador
 
-**Debounce:** executa a função apenas após o evento **parar de disparar** por X ms.
-> Exemplo real: campo de busca em tempo real — só dispara o `fetch` após 300ms sem digitar, evitando uma request por tecla pressionada.
+**Debounce:** executa a função apenas após o evento **parar de disparar** por X ms.  
+Exemplo: campo de busca em tempo real — só dispara o `fetch` após 300ms sem digitar, evitando uma request por tecla pressionada.
 
-**Throttle:** executa a função **no máximo uma vez** a cada X ms, independente da frequência de chamadas.
-> Exemplo real: evento `scroll` ou `resize` — processa no máximo a cada 100ms para não travar a UI com dezenas de execuções por segundo.
+**Throttle:** executa a função **no máximo uma vez** a cada X ms, independente da frequência de chamadas.  
+Exemplo: evento `scroll` ou `resize` — processa no máximo a cada 100ms para não travar a UI com dezenas de execuções por segundo.
 
 ---
 
