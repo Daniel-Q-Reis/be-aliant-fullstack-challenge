@@ -32,6 +32,8 @@
 | Scripts SQL (TypeORM sync/migrations) | ✅ | Escopo do desafio |
 | Swagger / OpenAPI (`/api/docs`) | ✅ | Extra — UX para o avaliador |
 | Coleção Postman (`be-aliant.postman_collection.json`) | ✅ | Extra — UX para o avaliador |
+| Respostas Parte 2 — Raciocínio e Arquitetura (`docs/RESPOSTAS-PARTE-2.md`) | ✅ | Entrega escrita conforme solicitado |
+| Parte 3 — Code Review Guiado | 🗓️ | A realizar na entrevista técnica |
 
 ---
 
