@@ -17,7 +17,7 @@ jobs:
       - name: Install dependencies (workspace root)
         run: npm ci
       - name: Run API unit tests
-        run: cd api && npm run test
+        run: cd api && npm run test:cov
 
   test-worker:
     name: Worker Unit Tests
@@ -32,7 +32,7 @@ jobs:
       - name: Install dependencies (workspace root)
         run: npm ci
       - name: Run Worker unit tests
-        run: cd worker && npm run test
+        run: cd worker && npm run test:cov
 
   build-web:
     name: Frontend Build Check
