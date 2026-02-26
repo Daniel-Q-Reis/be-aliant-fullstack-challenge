@@ -57,6 +57,7 @@ docker-compose exec api node dist/api/src/database/seed.js
 | Frontend   | http://localhost:5173     |
 | Adminer    | http://localhost:8080     |
 | LocalStack | http://localhost:4566     |
+| Swagger    | http://localhost:3000/api/docs |
 
 ---
 
