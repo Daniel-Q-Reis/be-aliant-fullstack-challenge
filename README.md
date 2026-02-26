@@ -87,6 +87,23 @@ Após efetuar login pelo Postman (ou pelo próprio Swagger), clique em **Authori
 
 ---
 
+## Testes
+
+```bash
+# API (13 testes)
+cd api && npm run test:cov
+
+# Worker (3 testes)
+cd ../worker && npm run test:cov
+```
+
+| Módulo | Testes | Cobertura dos serviços |
+|---|---|---|
+| API | 13 passed | auth 100% · sqs-producer 100% · users 95% · orders 84% |
+| Worker | 3 passed | consumer 75% |
+
+---
+
 ## Diagrama de Arquitetura
 
 ```mermaid
