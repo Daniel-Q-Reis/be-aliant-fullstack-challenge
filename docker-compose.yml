@@ -40,10 +40,12 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 15s
 
   sqs-init:
     image: amazon/aws-cli
     container_name: be_aliant_sqs_init
+    restart: on-failure
     depends_on:
       localstack:
         condition: service_healthy
